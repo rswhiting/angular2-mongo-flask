@@ -24,7 +24,7 @@ class BaseConfig(object):
     LOGGING_LEVEL = logging.DEBUG
     SECURITY_TOKEN_MAX_AGE = 60 * 30
     SECURITY_CONFIRMABLE = False
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    MONGOENGINE_TRACK_MODIFICATIONS = False
     CACHE_TYPE = 'simple'
     SECURITY_PASSWORD_SALT = 'super-secret-stuff-here'
     COMPRESS_MIMETYPES = ['text/html', 'text/css', 'text/xml',
@@ -44,8 +44,9 @@ class DevelopmentConfig(BaseConfig):
 
     DEBUG = True
     TESTING = False
-    BASEDIR = os.path.abspath(os.path.dirname(__file__))
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASEDIR, 'app.db')
+    MONGODB_DB = os.getenv('MONGODB_DB', 'demoappdb')
+    MONGODB_HOST = os.getenv('MONGODB_HOST', 'localhost')
+    MONGODB_PORT = os.getenv('MONGODB_PORT', 27017)
     SECRET_KEY = 'not-so-super-secret'
 
 
@@ -54,8 +55,9 @@ class ProductionConfig(BaseConfig):
 
     DEBUG = False
     TESTING = False
-    BASEDIR = os.path.abspath(os.path.dirname(__file__))
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASEDIR, 'app.db')
+    MONGODB_DB = os.getenv('MONGODB_DB', 'demoappdb')
+    MONGODB_HOST = os.getenv('MONGODB_HOST', 'localhost')
+    MONGODB_PORT = os.getenv('MONGODB_PORT', 27017)
     SECRET_KEY = 'Super-awesome-secret-stuff'
 
 
@@ -64,5 +66,7 @@ class TestingConfig(BaseConfig):
 
     DEBUG = False
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite://'
+    MONGODB_DB = os.getenv('MONGODB_DB', 'demoappdb')
+    MONGODB_HOST = os.getenv('MONGODB_HOST', 'localhost')
+    MONGODB_PORT = os.getenv('MONGODB_PORT', 27017)
     SECRET_KEY = '792842bc-c4df-4de1-9177-d5207bd9faa6'
